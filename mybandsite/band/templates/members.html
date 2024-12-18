@@ -1,0 +1,472 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background: black;
+        color: white;
+        font-family: arial;
+    }
+
+    .generation {
+        border: 1px solid grey;
+        border-width: 1px 0 0;
+        padding: 2px 0;
+        text-align: center;
+        position: relative;
+    }
+
+    .generation .member {
+        border: 1px solid white;
+        width: 120px;
+        display: inline-block;
+        margin: 2px;
+        border-radius: 6px;
+        height: 80px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .generation .member.selected {
+        box-shadow: 0 0 12px 5px yellow;
+    }
+
+    .generation .member .name {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+        background: rgba(255, 255, 255, 0.5);
+        padding: 4px;
+    }
+
+    .generation .member .actions {
+        border-top: 1px solid rgba(255, 255, 255, 0.7);
+        background: rgba(255, 255, 255, 0.5);
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .generation .member .actions a {
+        padding: 4px;
+        display: inline-block;
+        border-right: 1px solid white;
+        width: calc(100% / 3);
+        background: linear-gradient(to bottom, #cccccc 0%, #999999 100%);
+        color: grey;
+        text-decoration: none;
+    }
+
+    .generation .member .actions a:hover {
+        background: linear-gradient(to bottom, #999999 0%, #666666 100%);
+        color: yellow;
+    }
+
+    .generation .member .actions a:last-child {
+        border-right: 0;
+    }
+
+    .generation .member .info {
+        padding: 0;
+        margin: 0;
+        float: left;
+        text-align: center;
+        width: 100%;
+    }
+
+    .generation .member .info li {
+        font-size: 12px;
+        list-style: none;
+        padding: 0 4px;
+        margin: 4px 0 0;
+        color: grey;
+    }
+
+    .generation .clear-tree {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+
+    .spinner-target {
+        position: fixed;
+        top: calc(50% - 45px);
+        left: calc(50% - 45px);
+        z-index: 1100;
+        width: 90px;
+        height: 90px;
+    }
+
+    /* ----------------------IMPORT-------------------- */
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;
+    }
+
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1040;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-wrapper {
+        position: fixed;
+        top: calc(50% - 120px);
+        left: calc(50% - 150px);
+        z-index: 1050;
+        overflow: auto;
+        width: 350px;
+        background-color: #FFF;
+        border: 1px solid #999;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        border-radius: 6px;
+        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+        background-clip: padding-box;
+    }
+
+    .modal-header {
+        padding: 9px 15px;
+        border-bottom: 3px solid lightyellow;
+        background: darkgrey;
+        font-size: 18px;
+        font-weight: bold;
+        font-family: sans-serif;
+    }
+
+    .modal-header .modal-close {
+        position: absolute;
+        top: 13px;
+        right: 13px;
+    }
+
+    .modal-header h3 {
+        line-height: 32px;
+        color: black;
+        text-shadow: lightyellow 1px 1px 3px;
+        margin: 0;
+    }
+
+    .modal-body {
+        overflow-y: auto;
+        max-height: 400px;
+        padding: 15px;
+        min-height: 100px;
+        background: lightgrey;
+        color: black;
+    }
+
+    .modal-footer {
+        padding: 12px 6px;
+        margin-bottom: 0;
+        text-align: right;
+        background-color: darkgrey;
+        border-top: 3px solid lightyellow;
+        border-radius: 0 0 6px 6px;
+        box-shadow: inset 0 1px 0 #FFF;
+    }
+
+    .modal-footer a {
+        color: white;
+        text-shadow: 0;
+    }
+
+    .modal-footer a:hover {
+        text-decoration: none;
+    }
+
+    .modal-textarea {
+        width: 50%;
+        height: 240px;
+        font-family: arial;
+        display: inline-block;
+    }
+
+    .btn-group {
+        padding: 4px;
+    }
+
+    .btn {
+        text-decoration: none;
+        font-family: sans-serif;
+        display: inline-block;
+        padding: 4px 10px 4px;
+        margin: 0 4px;
+        font-size: 12px;
+        line-height: 14px;
+        color: white;
+        text-align: center;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
+        vertical-align: middle;
+        cursor: pointer;
+        background-color: grey;
+        border-color: grey;
+        border-radius: 4px;
+        border: 0;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn:hover {
+        text-decoration: none;
+        text-shadow: 0 1px 1px rgba(255, 255, 39, 0.75);
+    }
+
+    span.btn {
+        cursor: default;
+    }
+
+    span.btn:hover {
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
+    }
+
+    span.btn.btn-primary:hover {
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    }
+
+    .btn-primary {
+        background: linear-gradient(to bottom, #ffffcc 0%, rgba(255, 255, 212, 0.8) 100%);
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+        color: black;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .pull-right {
+        float: right;
+    }
+
+    .pull-left {
+        float: left;
+    }
+
+    /* ---------------------------------------------------------
+                  FORMS
+   --------------------------------------------------------- */
+    .control-group {
+        height: 34px;
+    }
+
+    .control-group input {
+        line-height: 20px;
+    }
+
+    .control-group label,
+    .control-group .controls {
+        display: inline-block;
+        vertical-align: top;
+        line-height: 34px;
+    }
+
+    .control-group label {
+        width: 130px;
+    }
+
+    .input-large {
+        width: 400px;
+    }
+
+    [class*="span"] {
+        display: inline-block;
+        width: 100%;
+        min-height: 28px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        vertical-align: top;
+    }
+
+    .span12 {
+        width: 99.99999998999999%;
+    }
+
+    .span11 {
+        width: 91.489361693%;
+    }
+
+    .span10 {
+        width: 82.97872339599999%;
+    }
+
+    .span9 {
+        width: 74.468085099%;
+    }
+
+    .span8 {
+        width: 65.95744680199999%;
+    }
+
+    .span7 {
+        width: 57.446808505%;
+    }
+
+    .span6 {
+        width: 48.93617020799999%;
+    }
+
+    .span5 {
+        width: 40.425531911%;
+    }
+
+    .span4 {
+        width: 31.914893614%;
+    }
+
+    .span3 {
+        width: 23.404255317%;
+    }
+
+    .span2 {
+        width: 14.89361702%;
+    }
+
+    .span1 {
+        width: 6.382978723%;
+    }
+
+    .note {
+        font-style: italic;
+        text-align: center;
+    }
+
+    .strong {
+        font-weight: bold;
+    }
+
+    .control-group-narrow .control-label {
+        width: 85px;
+    }
+
+    .control-group-narrow {
+        height: 23px;
+        padding-left: 3px;
+    }
+
+    select {
+        min-height: 30px;
+        margin: 0;
+    }
+
+    li {
+        line-height: 1.8;
+        margin: 3px 0;
+    }
+
+    /* ----------------------------------------------- 
+         ICONS
+   ----------------------------------------------- */
+    @font-face {
+        font-family: 'FontAwesome';
+        src: url("https://netdna.bootstrapcdn.com/font-awesome/3.0/font/fontawesome-webfont.eot");
+        src: url("https://netdna.bootstrapcdn.com/font-awesome/3.0/font/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("https://netdna.bootstrapcdn.com/font-awesome/3.0/font/fontawesome-webfont.woff") format("woff"), url("https://netdna.bootstrapcdn.com/font-awesome/3.0/font/fontawesome-webfont.ttf") format("truetype");
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .icon-font {
+        font-family: fontawesome;
+    }
+</style>
+<h1>Family Relationship Calculator</h1>
+<p>
+    This tool allows you to build a quick family tree and then quickly calculate and see a visual representation of the
+    relationships of your family members. Some basic relationships don't need such fanciness but when you get to second
+    cousins once removed or third cousins twice removed it helps to see it.
+</p>
+<h2>Getting Started</h2>
+<ol>
+    <li>Click the edit icon (<span class="icon-font"> &#xf044; </span>) on the common ancestor at the top of the
+        tree.<br /><em><strong>Note:</strong> This is initially valued with some sample family members to show you what
+            you'll get, click the <span class="btn btn-primary">clear tree</span> button in the first generation to
+            clear out the sample members so you can start with yours.</em></li>
+    <li>Click the add icon (<span class="icon-font"> &#xf067; </span>) to add descendants to that common ancestor to
+        fill out the tree and add generations.</li>
+    <li>Once you have the family members added that you want to see relationships for, click the "map it" icon (<span
+            class="icon-font"> &#xf041; </span>) on a family member to see how everyone relates to them.</li>
+</ol>
+<div class="tree-wrapper"></div>
+<a href="#" class="clear-tree btn btn-primary hide">Clear Tree</a>
+<!--
+          MODAL DIVS
+    -->
+<div class="modal-overlay hide">
+    <div class="spinner-target"></div>
+</div>
+
+<div class="modal-wrapper hide"></div>
+<!-- *******************************************
+          TEMPLATES
+         ******************************************* -->
+
+<!-- generation -->
+<script id="gen-template" type="text/x-handlebars-template">
+      <div class="generation" data-generation="{{id}}">
+      
+      </div>
+    </script>
+
+<!-- member -->
+<script id="member-template" type="text/x-handlebars-template">
+      <div class="member" id="{{id}}" data-parent="{{parent}}" data-gender="{{gender}}">
+        <div class="name">
+          {{name}}
+        </div>
+        <ul class="info"></ul>
+        <div class="actions">
+          <a href="#member-form" data-modal-header="Add Descendant" title="Add Descendant" class="member-form-trigger icon-font" data-action="add">&#xf067;</a><a href="#" title="View Relationships" class="select icon-font">&#xf041;</a><a href="#member-form" data-modal-header="Edit Member" title="Edit Member" class="member-form-trigger icon-font" data-action="edit">&#xf044;</a>
+        </div>
+      </div>
+    </script>
+
+<!-- member form -->
+<script id="member-form" type="text/x-handlebars-template">
+      <form>
+        <input type="hidden" name="id" value="{{id}}" />
+        <input type="hidden" name="parent" value="{{parent}}" />
+        <div class="control-group">
+          <label for="member-name">Name</label>
+          <div class="controls">
+            <input type="text" name="member-name" id="member-name" value="{{name}}" />
+          </div>
+        </div>
+        <div class="control-group">
+          <label for="gender">Gender</label>
+          <div class="controls">
+            <select name="gender">
+              
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              
+            </select>        
+          </div>
+        </div>
+      </form>
+    </script>
+
+<!-- modal -->
+<script id="modal-template" type="text/x-handlebars-template">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>{{header}}</h3>
+          <a class="modal-close btn">X</a>
+        </div>
+        <div class="modal-body"></div>
+        <div class="modal-footer">
+          <div class="btn-group">
+            <button class="btn btn-primary member-save">Save</button>
+            <button class="btn modal-close">Close</button>
+            <a href="#" class="remove pull-left">Remove This Member</a>
+          </div>
+        </div>
+      </div>
+    </script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/spin.js/1.2.7/spin.min.js"></script>

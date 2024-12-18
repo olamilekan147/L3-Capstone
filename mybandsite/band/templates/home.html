@@ -1,0 +1,305 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<style>
+    body {
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 16px;
+    }
+
+    /*--header--*/
+    #header {
+        display: flex;
+        flex-direction: column;
+        background-color: #FF3333;
+        box-shadow: 0 0 30px rgb(0, 0, 0, 0.5);
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        z-index: 3;
+    }
+
+    #header-img {
+        width: 75px;
+        height: 55px;
+        align-self: center;
+    }
+
+    #nav-bar>ul {
+        display: flex;
+        list-style-type: none;
+    }
+
+    .container {
+        flex: 1;
+        text-align: center;
+    }
+
+    .nav-link {
+        color: #003333;
+        font-size: 15px;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    .nav-link:hover {
+        text-decoration: underline;
+    }
+
+    @media (min-width:768px) {
+        #header {
+            flex-direction: row;
+            align-items: center;
+        }
+
+        #header-img {
+            width: 120px;
+            height: 80px;
+        }
+
+        .nav-link {
+            padding: 10px 35px;
+            font-size: 16px;
+        }
+
+    }
+
+    /*--Home--*/
+    #home {
+        margin-top: 110px;
+        background-color: #669999;
+        position: relative;
+        text-align: center;
+    }
+
+    #background {
+        position: absolute;
+        left: -20vw;
+        width: 65%;
+        background-color: white;
+        height: 100%;
+        transform: skewX(-10deg);
+        z-index: 1;
+    }
+
+    #home>h1,
+    #home>p,
+    #home>img,
+    #home>form {
+        position: relative;
+        z-index: 2;
+    }
+
+    #home>h1 {
+        font-size: 30px;
+        color: #003333;
+        padding-top: 20px;
+    }
+
+    #product {
+        width: 250px;
+        margin: 30px 0;
+    }
+
+    #form {
+        color: #003333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 0;
+    }
+
+    #email {
+        margin: 10px 0;
+    }
+
+    #submit {
+        background: #669999;
+        border-radius: 10px;
+        padding: 20px;
+        font-size: 20px;
+        color: white;
+    }
+
+    @media (min-width:768px) {
+        #home {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+            column-gap: 20px;
+        }
+
+        #home>h1 {
+            grid-area: 1/1/2/2;
+            justify-self: end;
+            align-self: end;
+            font-size: 40px;
+        }
+
+        #home>p {
+            grid-area: 2/1/3/2;
+            justify-self: end;
+            align-self: center;
+            text-align: right;
+        }
+
+        #product {
+            grid-area: 1/2/4/3;
+            align-self: center;
+            width: 300px;
+        }
+
+        #form {
+            justify-self: end;
+            grid-area: 3/1/4/2;
+        }
+    }
+
+    @media (min-width:992px) {
+        #product {
+            width: 350px;
+        }
+    }
+
+    /*--About--*/
+
+    #about {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #about>h1,
+    #about>p {
+        color: #003333;
+    }
+
+    #about>h1 {
+        font-size: 30px;
+    }
+
+    #about>img {
+        width: 300px;
+    }
+
+    #video {
+        width: 300px;
+        height: auto;
+        margin: 10px 0;
+    }
+
+    @media(min-width:768px) {
+        #about {
+            grid-template-columns: 1fr 1fr;
+            grid-column-gap: 20px;
+            display: grid;
+            padding: 20px;
+        }
+
+        #about>h1 {
+            justify-self: right;
+            align-self: end;
+            font-size: 40px;
+        }
+
+        #about>p {
+            align-self: center;
+            justify-self: right;
+        }
+
+        #video {
+            justify-self: right;
+            width: 400px;
+        }
+
+        #about>img {
+            width: 400px;
+            grid-area: 1/2/4/3;
+            align-self: center;
+            justify-self: center;
+        }
+    }
+
+
+
+    /*--Reviews--*/
+    #reviews {
+        background-color: #003333;
+        color: white;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #reviews>h1 {
+        padding-top: 20px;
+    }
+
+    #reviews b {
+        font-size: 20px;
+    }
+
+    cite {
+        display: block;
+        margin: 20px;
+    }
+</style>
+
+<head>
+    <meta name="viewport" content="width=device-width,user-scalable=yes">
+
+<body>
+    <header id="header">
+        <img id="header-img" alt="ms logo"
+            src="https://pre00.deviantart.net/f173/th/pre/f/2016/251/a/5/ms_logo_design_by_killkol-dah07s7.png">
+        <nav id="nav-bar">
+            <ul>
+                <li class="container"><a class="nav-link" href="#home">Home</a></li>
+                <li class="container"><a class="nav-link" href="#about">About</a></li>
+                <li class="container"><a class="nav-link" href="{% url 'events' %}">Events</a></li>
+                <li class="container text-end"><a class="nav-link" href="{% url 'logout' %}">logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home">
+        <div id="background"></div>
+        <h1>AWESOME PRODUCT</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+            anim id est laborum</p>
+
+
+        <form id="form" action="https://www.freecodecamp.com/email-submit">
+            <label for="email">Submit Email for Newsletter</label>
+            <input type="email" id="email" placeholder="Enter email.." name="email">
+            <input type="submit" value="Submit" id="submit">
+        </form>
+
+    </section>
+
+    <section id="about">
+        <h1>ABOUT THE PRODUCT</h1>
+        <p>Cupiditate non numquam eius modi tempora incidunt, ut aliquid ex ea voluptate. Porro quisquam est, omnis iste
+            natus. Ipsam voluptatem, quia dolor repellendus earum rerum necessitatibus saepe eveniet, ut.Nemo enim ad
+            minima veniam. Ea voluptate velit esse, quam nihil molestiae. Architecto beatae vitae dicta sunt. </p>
+
+        <video id="video" controls src="https://archive.org/download/ElephantsDream/ed_1024_512kb.mp4"
+            poster="https://upload.wikimedia.org/wikipedia/commons/e/e8/Elephants_Dream_s5_both.jpg">
+        </video>
+    </section>
+
+    <section id="reviews">
+        <h1>REVIEWS</h1>
+        <blockquote><b>"</b>Voluptates repudiandae sint et accusamus et sunt dolore. Dignissimos ducimus, qui blanditiis
+            praesentium voluptatum deleniti atque corrupti, quos dolores. Nobis est eligendi optio, cumque nihil
+            impedit. Facere possimus, omnis dolor sit, aspernatur aut perferendis.<b>"</b>
+            <cite>MS, CEO of First Company</cite>
+        </blockquote>
+    </section>
+</body>
