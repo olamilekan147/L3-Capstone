@@ -1,7 +1,7 @@
 # My Band Site
 
 
-##Installation:
+## Installation:
 
 You need to have python3, git or docker installed.
 #### With Git
@@ -12,7 +12,7 @@ You need to have python3, git or docker installed.
 3. ```python3 -m install -r requirements.txt```
 4. ```python3 manage.py runserver```
 
-####With Docker
+### #With Docker
 1. ```docker build -t site ./```
 2. ```docker run -d -p 8000 site```
 
